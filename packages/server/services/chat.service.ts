@@ -15,15 +15,25 @@ export const chatService = {
     prompt: string,
     conversationId: string
   ): Promise<ChatResponse> {
-    const response = await client.responses.create({
-      model: 'gpt-4o-mini',
-      input: prompt,
-      temperature: 0.2,
-      max_output_tokens: 100,
-      previous_response_id:
-        conversationRepository.getLastConversationId(conversationId),
-    });
-    conversationRepository.setLastConversationId(conversationId, response.id);
-    return { id: response.id, message: response.output_text };
+    try {
+      console.log(' **** In chat service');
+      // const response = await client.responses.create({
+      //   model: 'gpt-4o-mini',
+      //   input: prompt,
+      //   temperature: 0.2,
+      //   max_output_tokens: 100,
+      //   previous_response_id:
+      //     conversationRepository.getLastConversationId(conversationId),
+      // });
+      // conversationRepository.setLastConversationId(conversationId, response.id);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const response = conversationRepository.getRandomDummyResponse();
+      console.log('======= Response is ', response);
+      return { id: response?.id ?? '', message: response?.output_text ?? '' };
+    } catch (error) {
+      const err = error;
+      console.log('err in connecting to LLM', err);
+      return { id: '', message: 'Something went wrong' };
+    }
   },
 };

@@ -1,18 +1,9 @@
-import { useEffect, useState } from 'react';
+import ChatBot from './components/chat/ChatBot';
 
 function App() {
-  const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    fetch('/api/hello')
-      .then((res) => res.json())
-      .then((data) => setMessage(data.message));
-  }, []);
-
   return (
-    <div>
-      <p className="text-3xl font-bold p-4">{message}</p>
-      <button>Click me</button>
+    <div className="p-4 h-screen w-full">
+      <ChatBot />
     </div>
   );
 }
